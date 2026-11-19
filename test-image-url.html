@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image URL Test</title>
+</head>
+<body>
+    <h1>Testing Image URLs</h1>
+    
+    <h2>Direct URL (Should work)</h2>
+    <img src="https://piqgdjbupsmtegtijgfz.supabase.co/storage/v1/object/public/menu-images/Tea.jpg" 
+         alt="Tea" 
+         style="max-width: 300px; border: 2px solid green;">
+    
+    <h2>Database Format Test</h2>
+    <p>If you saved as: <code>menu-images/Tea.jpg</code></p>
+    <p>It should resolve to: <code>https://piqgdjbupsmtegtijgfz.supabase.co/storage/v1/object/public/menu-images/Tea.jpg</code></p>
+    
+    <h2>Check your database</h2>
+    <p>Run this SQL:</p>
+    <pre>
+SELECT name_en, image_url 
+FROM menu_items 
+WHERE name_en ILIKE '%tea%' 
+AND image_url IS NOT NULL 
+LIMIT 5;
+    </pre>
+</body>
+</html>
