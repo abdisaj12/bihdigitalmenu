@@ -11,23 +11,48 @@ export function storagePath(ref: string) { return ref.startsWith(`${MEDIA_BUCKET
 
 export async function resolveImage(ref: string | null): Promise<string | null> {
   if (!ref) return null;
+  
+  // If it's already a full URL, return as-is
+  if (ref.startsWith('http://') || ref.startsWith('https://')) {
+    return ref;
+  }
+  
   const path = storagePath(ref);
   if (!path) return ref;
+  
+  // Check cache first
   const hit = cache.get(path);
   if (hit && hit.exp > Date.now()) return hit.url;
   
-  // Try getting public URL first (since bucket is public)
-  const { data: publicData } = supabase.storage.from(MEDIA_BUCKET).getPublicUrl(path);
-  if (publicData?.publicUrl) {
-    cache.set(path, { url: publicData.publicUrl, exp: Date.now() + 60 * 60 * 24 * 1000 }); // Cache for 24h
-    return publicData.publicUrl;
+  try {
+    // Try getting public URL first (since bucket should be public)
+    const { data: publicData } = supabase.storage.from(MEDIA_BUCKET).getPublicUrl(path);
+    if (publicData?.publicUrl) {
+      const publicUrl = publicData.publicUrl;
+      console.log('[resolveImage] Generated public URL:', publicUrl);
+      cache.set(path, { url: publicUrl, exp: Date.now() + 60 * 60 * 24 * 1000 }); // Cache for 24h
+      return publicUrl;
+    }
+  } catch (e) {
+    console.error('[resolveImage] Error getting public URL:', e);
   }
   
-  // Fallback to signed URL if public URL doesn't work
-  const { data, error } = await supabase.storage.from(MEDIA_BUCKET).createSignedUrl(path, 60 * 60 * 6);
-  if (error || !data) return null;
-  cache.set(path, { url: data.signedUrl, exp: Date.now() + 60 * 60 * 5 * 1000 });
-  return data.signedUrl;
+  try {
+    // Fallback to signed URL if public URL doesn't work
+    const { data, error } = await supabase.storage.from(MEDIA_BUCKET).createSignedUrl(path, 60 * 60 * 6);
+    if (error) {
+      console.error('[resolveImage] Error creating signed URL:', error);
+      return null;
+    }
+    if (!data) return null;
+    
+    console.log('[resolveImage] Generated signed URL:', data.signedUrl);
+    cache.set(path, { url: data.signedUrl, exp: Date.now() + 60 * 60 * 5 * 1000 });
+    return data.signedUrl;
+  } catch (e) {
+    console.error('[resolveImage] Error in signed URL fallback:', e);
+    return null;
+  }
 }
 
 export function useImage(ref: string | null) {
