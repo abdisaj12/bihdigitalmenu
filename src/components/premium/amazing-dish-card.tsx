@@ -109,18 +109,7 @@ export function AmazingDishCard({
           className="block w-full h-full"
           aria-label={`View ${name}`}
         >
-          {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={name}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              loading="lazy"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-muted/50">
-              <ChefHat className="size-16 text-muted-foreground/30" />
-            </div>
-          )}
+          <DishImage src={imageUrl} name={name} className="transition-transform duration-700 group-hover:scale-110" />
         </button>
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
