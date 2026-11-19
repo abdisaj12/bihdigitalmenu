@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <!-- Red stripe -->
+  <rect width="900" height="200" fill="#FF0000"/>
+  <!-- White stripe -->
+  <rect y="200" width="900" height="200" fill="#FFFFFF"/>
+  <!-- Black stripe -->
+  <rect y="400" width="900" height="200" fill="#000000"/>
+  <!-- Green tree symbol in center -->
+  <g transform="translate(450, 300)">
+    <!-- Tree trunk -->
+    <rect x="-15" y="30" width="30" height="50" fill="#228B22"/>
+    <!-- Tree foliage -->
+    <circle cx="0" cy="0" r="60" fill="#228B22"/>
+    <ellipse cx="-30" cy="10" rx="40" ry="50" fill="#228B22"/>
+    <ellipse cx="30" cy="10" rx="40" ry="50" fill="#228B22"/>
+  </g>
+</svg>

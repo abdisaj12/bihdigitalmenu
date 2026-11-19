@@ -1,0 +1,1 @@
+CREATE POLICY menu_images_guest_read ON storage.objects FOR SELECT TO anon, authenticated USING (bucket_id = 'menu-images');

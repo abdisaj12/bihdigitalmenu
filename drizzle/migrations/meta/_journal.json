@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794089586946,
+      "tag": "0000_hotel_menu_statuses",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794089610070,
+      "tag": "0001_premium_hotel_menu_backend",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794328732275,
+      "tag": "0002_add_super_admin_role",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794328768587,
+      "tag": "0003_admin_panel_catalog",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794328812968,
+      "tag": "0004_menu_images_guest_read",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794328827173,
+      "tag": "0005_order_pricing_discount_vat_mode",
+      "breakpoints": true
+    }
+  ]
+}

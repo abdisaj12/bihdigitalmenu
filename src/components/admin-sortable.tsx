@@ -1,0 +1,8 @@
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, useSortable, verticalListSortingStrategy, sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { GripVertical } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { Button } from './ui/button';
+function Row({id,children}:{id:string;children:ReactNode}){const {attributes,listeners,setNodeRef,transform,transition}=useSortable({id});return <div ref={setNodeRef} style={{transform:CSS.Transform.toString(transform),transition}} className="flex items-center gap-2 border-b py-3"><Button variant="ghost" size="icon" aria-label="Drag to reorder" className="size-11 shrink-0 touch-none" {...attributes} {...listeners}><GripVertical/></Button><div className="min-w-0 flex-1">{children}</div></div>}
+export function SortableRows<T extends {id:string}>({rows,render,onReorder}:{rows:T[];render:(row:T)=>ReactNode;onReorder:(rows:T[])=>void}){const sensors=useSensors(useSensor(PointerSensor,{activationConstraint:{distance:8}}),useSensor(KeyboardSensor,{coordinateGetter:sortableKeyboardCoordinates}));function end(e:DragEndEvent){if(e.over&&e.active.id!==e.over.id)onReorder(arrayMove(rows,rows.findIndex(r=>r.id===e.active.id),rows.findIndex(r=>r.id===e.over?.id)));}return <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={end}><SortableContext items={rows.map(r=>r.id)} strategy={verticalListSortingStrategy}>{rows.map(row=><Row key={row.id} id={row.id}>{render(row)}</Row>)}</SortableContext></DndContext>}

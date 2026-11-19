@@ -1,0 +1,11 @@
+# Bulcha complete hotel menu
+- [ ] Establish the shared quiet-luxury theme, typography, and reusable layout.
+- [ ] Create the guest welcome splash with photography, slow zoom, gold-line animation, and Explore action; do not build the menu.
+- [ ] Provide /admin/login entry to the existing single admin console.
+- [ ] Verify welcome and sign-in entry at desktop and 375px, including reduced motion.
+- [ ] Add multilingual menu schema, guest-order security, settings, admin-only image storage and password sign-in.
+- [ ] Build guest menu, item sheets, persistent cart, VAT totals, ordering and success screen.
+- [ ] Consolidate dashboard, menu CRUD/reorder/image confirmation, categories, live orders/receipts, settings and QR exports in one admin console.
+- [ ] Verify guest ordering and authenticated admin management end to end; keep rule tests.
+- [ ] Seed 9 categories and about 40 accurate Ethiopian/international dishes, traditional translations and named placeholders instead of unrelated photos.
+- [ ] Review consistent styling, accessibility, loading/error/empty states, 375px/768px/desktop layouts, image performance and admin access; add branded favicon/share metadata.

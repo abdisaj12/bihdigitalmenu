@@ -1,0 +1,1 @@
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS theme text CHECK (theme IN ('dark','light'));

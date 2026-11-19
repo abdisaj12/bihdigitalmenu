@@ -1,0 +1,1 @@
+ALTER TABLE public.categories ALTER COLUMN slug DROP NOT NULL;
