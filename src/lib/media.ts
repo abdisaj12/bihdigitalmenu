@@ -15,6 +15,15 @@ export async function resolveImage(ref: string | null): Promise<string | null> {
   if (!path) return ref;
   const hit = cache.get(path);
   if (hit && hit.exp > Date.now()) return hit.url;
+  
+  // Try getting public URL first (since bucket is public)
+  const { data: publicData } = supabase.storage.from(MEDIA_BUCKET).getPublicUrl(path);
+  if (publicData?.publicUrl) {
+    cache.set(path, { url: publicData.publicUrl, exp: Date.now() + 60 * 60 * 24 * 1000 }); // Cache for 24h
+    return publicData.publicUrl;
+  }
+  
+  // Fallback to signed URL if public URL doesn't work
   const { data, error } = await supabase.storage.from(MEDIA_BUCKET).createSignedUrl(path, 60 * 60 * 6);
   if (error || !data) return null;
   cache.set(path, { url: data.signedUrl, exp: Date.now() + 60 * 60 * 5 * 1000 });
@@ -23,7 +32,21 @@ export async function resolveImage(ref: string | null): Promise<string | null> {
 
 export function useImage(ref: string | null) {
   const [url, setUrl] = useState<string | null>(() => (ref && !storagePath(ref) ? ref : null));
-  useEffect(() => { let live = true; resolveImage(ref).then((u) => live && setUrl(u)); return () => { live = false; }; }, [ref]);
+  useEffect(() => { 
+    let live = true; 
+    if (ref) {
+      resolveImage(ref).then((u) => {
+        if (live) {
+          if (!u) console.warn('[useImage] Failed to resolve:', ref);
+          setUrl(u);
+        }
+      }).catch(err => {
+        console.error('[useImage] Error resolving image:', ref, err);
+        if (live) setUrl(null);
+      });
+    }
+    return () => { live = false; }; 
+  }, [ref]);
   return url;
 }
 
