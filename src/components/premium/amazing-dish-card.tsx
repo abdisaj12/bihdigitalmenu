@@ -106,13 +106,15 @@ export function AmazingDishCard({
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
         <button
           onClick={onView}
-          className="block w-full h-full"
+          className="block w-full h-full relative"
           aria-label={`View ${name}`}
         >
-          <DishImage src={imageUrl} name={name} className="transition-transform duration-700 group-hover:scale-110" />
+          <div className="absolute inset-0">
+            <DishImage src={imageUrl} name={name} className="transition-transform duration-700 group-hover:scale-110" />
+          </div>
         </button>
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>
 
       {/* Card Content */}

@@ -26,7 +26,8 @@ export function DishImage({src,name,className=''}:{src:string|null;name:string;c
         console.error('[DishImage] onError triggered:', url, e);
         setFailed(true);
       }} 
-      className={`h-full w-full object-cover ${className}`}
+      className={`h-full w-full object-cover object-center ${className}`}
+      style={{ objectFit: 'cover', objectPosition: 'center' }}
     />;
   }
   
